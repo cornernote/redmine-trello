@@ -5,10 +5,10 @@ This project provides full synchronization of
 Redmine tickets to Trello boards.
 
 This project synchronizes the following with a trello card
-	* the ticket owner (adding them as a member to the trello card)
-	* the ticket comments and keeps them up to date on each sync.
-	* the ticket changesets (adding them as comments) and keeps them up to date on each sync.
-	* It synchronizes the ticket status as a label
+* the ticket owner (adding them as a member to the trello card)
+* the ticket comments and keeps them up to date on each sync.
+* the ticket changesets (adding them as comments) and keeps them up to date on each sync.
+* It synchronizes the ticket status as a label
 	
 This also will keep the trello cards synchronized with the redmine ticket as long as the ticket stays in the same list is was created in or check_all_lists is set to true.
 
