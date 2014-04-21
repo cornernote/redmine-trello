@@ -30,7 +30,7 @@ Installation
    your mappings from Redmine projects / issue states and
    your mappings from Redmine users
    to the Trello lists you'd like to clone the issues into
-* Set up a cron job that calls `bin/copy_to_trello.rb` or if you are using rvm 'bin/run_rmv.sh' at
+* Set up a cron job that calls `bin/copy_to_trello.rb` or if you are using rvm `bin/run_rmv.sh` at
    your desired interval
 
 Compatibility
