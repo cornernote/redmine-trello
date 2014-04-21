@@ -32,12 +32,96 @@ module RMT
       puts "Adding card: #{properties[:name]}"
       card = ::Trello::Card.create(:name => properties[:name],
                                    :list_id => properties[:list],
-                                   :description => sanitize_utf8(properties[:description]))
+                                   :desc => sanitize_utf8(properties[:description]))
+								   
       if properties[:color]
         card.add_label(properties[:color])
       end
+	  
+	  if properties[:owner]		
+		 card.add_member(::Trello::Member::find(properties[:owner]))
+	  end
+	  
+	  if properties[:notes]
+			properties[:notes].each do |n| 
+				note = "User: #{n.user.name}\nDate: #{n.created_on}\nNote: #{n.notes}"
+				card.add_comment(note)
+			end
+	  end
+	  
+	  if properties[:changesets]
+			properties[:changesets].each do |c| 
+				changesets = "==Changeset==\nUser: #{c.user.name}\nDate: #{c.committed_on}\nRevision: #{c.revision}\nComments: #{c.comments}"
+				card.add_comment(changesets)
+			end
+	  end
     end
 
+	def update_card(properties)
+      puts "Update card: #{properties[:name]}"
+      card = ::Trello::Card.find(properties[:card_id])
+	  
+	  # card.ipdate_fields(:name => properties[:name],
+                                   # :list_id => properties[:list],
+                                   # :desc => sanitize_utf8(properties[:description]))
+								   
+      if properties[:color]
+		if card.labels.select { |l| l.color == properties[:color]  } == nil
+			card.labels.each do |l|
+				card.remove_label(l.color)
+			end
+			
+			card.add_label(properties[:color])
+		end
+	  else
+			card.labels.each do |l|
+				card.remove_label(l.color)
+			end
+      end
+	  
+	  if properties[:owner]		
+		if card.members.select { |m| m.id == properties[:owner]  } == nil
+			card.members.each do |m|
+				card.remove_member(m)
+			end
+			
+			card.add_member(::Trello::Member::find(properties[:owner]))
+		end
+	  else
+		card.members.each do |m|
+			card.remove_member(m)
+		end
+	  end
+	  
+	  if properties[:notes]
+			properties[:notes].each do |n| 
+				note = "User: #{n.user.name}\nDate: #{n.created_on}\nNote: #{n.notes}"
+				card.add_comment(note)
+			end
+	  end
+	  
+	  if properties[:changesets]
+			properties[:changesets].each do |c| 
+				changesets = "==Changeset==\nUser: #{c.user.name}\nDate: #{c.committed_on}\nRevision: #{c.revision}\nComments: #{c.comments}"
+				card.add_comment(changesets)
+			end
+	  end
+    end
+	
+	def list_members_in_org(org_id)
+		puts "Getting Members of Org: #{org_id}"
+		org =  ::Trello::Organization::find(org_id)
+
+		return org.members
+	end
+	
+	def list_members_in_board(board_id)
+		puts "Getting Members of Board: #{board_id}"
+		org =  ::Trello::Board::find(board_id)
+
+		return org.members
+	end
+	
     def archive_card(card)
       puts "Removing card: #{card.name}"
       card.closed = true

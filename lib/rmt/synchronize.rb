@@ -12,7 +12,7 @@ module RMT
       self
     end
 
-    def finish
+    def finish			 
       @trello_list_data.each do |list, data|
         trello = RMT::Trello.new(list.app_key,
                                  list.secret,

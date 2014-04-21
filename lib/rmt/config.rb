@@ -71,7 +71,7 @@ module RMT
     end
 
     class TrelloConfig
-      attr_accessor :app_key, :secret, :user_token, :target_list_id, :color_map
+      attr_accessor :app_key, :secret, :user_token, :target_list_id, :color_map, :user_map
 
       def initialize(definition)
         @app_key = definition[:app_key]
@@ -79,6 +79,7 @@ module RMT
         @user_token = definition[:user_token]
         @target_list_id = definition[:target_list_id]
         @color_map = definition[:color_map]
+		@user_map = definition[:user_map]
       end
 
       def eql?(other)

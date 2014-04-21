@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem "github_api"
 gem "ruby-trello"
@@ -7,3 +7,4 @@ gem "faraday"
 gem "ox"
 gem "rake"
 gem "ramcrest"
+gem "activeresource"

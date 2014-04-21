@@ -17,9 +17,29 @@ require 'rmt/config'
 require 'redmine_trello_conf'
 require 'rmt/synchronize'
 
+last_run = DateTime.commercial(2002)
+tmp_file = File.join(File.absolute_path(File.dirname(__FILE__)), "last_run")
+
+begin
+		if File.exist?(tmp_file)
+				file = File.open(tmp_file, "r")
+				last_run = Date.parse(file.readline)
+				file.close
+		end
+
+		file = File.open(tmp_file, "w+")
+		file.puts DateTime.now.to_s
+rescue IOError => e
+		#some error occur, dir not writable etc.
+		 puts e.to_s.strip()
+		exit(1)
+ensure
+		file.close unless file == nil
+end
+		
 RMT::Config.
   mappings.
   inject(RMT::Synchronize.new) do |sync, mapping|
-    sync.synchronize(mapping.source.data_for(mapping.trello), mapping.trello)
+    sync.synchronize(mapping.source.data_for(mapping.trello, last_run), mapping.trello)
   end.
   finish

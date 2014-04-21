@@ -27,14 +27,23 @@ RMT::Config.define("sample") do
 		#  and you'll see a list of available List Ids for that board.
 		:target_list_id => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 
-		# A hash that maps Redmine "tracker" names to Trello Label colors.
-		# examples of Redmine tracker names can be found from,
+		# A hash that maps Redmine "status" names to Trello Label colors.
+		# examples of Redmine status names can be found from,
 		#   e.g. https://projects.puppetlabs.com/issues.xml?project_id=82
 		# legal Trello color values are [green yellow orange red purple blue]
 		:color_map => {
-				"Feature" => "green",
-				"Bug" => "red",
-				"Refactor" => "blue",
+				"New" => "green",
+				"Closed" => "red",
+				"Resolved" => "red",
+				"In Progress => "blue"
+		},
+		
+		# A hash that maps Redmine usernames to Trello Users.To find this value, navigate to
+		#  the Trello board that you are interested in in your browser and copy the board id from
+		#  the URL. Then run the "show_members_for_board.rb" command line tool against that board id,
+		#  and you'll see a list of available List Ids for that board.
+		:user_map => {
+				"user1" => "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 		}
 	})
 end
