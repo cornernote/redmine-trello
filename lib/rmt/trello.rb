@@ -66,7 +66,7 @@ module RMT
                                    # :desc => sanitize_utf8(properties[:description]))
 								   
       if properties[:color]
-		if card.labels.select { |l| l.color == properties[:color]  } == nil
+		if not card.labels.any? { |l| l.color == properties[:color]  }
 			card.labels.each do |l|
 				card.remove_label(l.color)
 			end
@@ -80,7 +80,7 @@ module RMT
       end
 	  
 	  if properties[:owner]		
-		if card.members.select { |m| m.id == properties[:owner]  } == nil
+		if not card.members.any? { |m| m.id == properties[:owner]  }
 			card.members.each do |m|
 				card.remove_member(m)
 			end
