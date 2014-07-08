@@ -27,7 +27,7 @@ module RMT
 		end
 
 		def GetIssuesByProject(project_id, options = {})
-			issues = Issue.find(:all, :params => { :project_id => project_id })
+			issues = Issue.find(:all, :params => { :project_id => project_id, :status_id => '*' })
 			
 			if (options.has_key?(:include_subprojects))
 				if (not include_subprojects)
