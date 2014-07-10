@@ -102,7 +102,11 @@ module RMT
 	  
 	  if properties[:changesets]
 			properties[:changesets].each do |c| 
-				changesets = "==Changeset==\nUser: #{c.user.name}\nDate: #{c.committed_on}\nRevision: #{c.revision}\nComments: #{c.comments}"
+			    if c.respond_to?("user")
+					changesets = "==Changeset==\nUser: #{c.user.name}\nDate: #{c.committed_on}\nRevision: #{c.revision}\nComments: #{c.comments}"
+				else
+					changesets = "==Changeset==\nDate: #{c.committed_on}\nRevision: #{c.revision}\nComments: #{c.comments}"
+				end
 				card.add_comment(changesets)
 			end
 	  end
