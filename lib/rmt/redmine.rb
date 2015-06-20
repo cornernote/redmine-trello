@@ -26,17 +26,22 @@ module RMT
 			Issue.password = @password
 		end
 
-		def GetIssuesByProject(project_id, options = {})
-			issues = Issue.find(:all, :params => { :project_id => project_id, :status_id => '*' })
-			
-			if (options.has_key?(:include_subprojects))
-				if (not include_subprojects)
-					issues = issues.select { |i| i.project.id == project_id }
-				end
+		 def GetIssuesByProject(project_id, options = {})
+					tmpissues = Issue.find(:all, :params => { :project_id => project_id, :status_id => '*', :tracker_id => '1', :limit => '10000' })
+					tmpissues2 = Issue.find(:all, :params => { :project_id => project_id, :status_id => '*', :tracker_id => '2', :limit => '10000' })
+					tmpissues3 = Issue.find(:all, :params => { :project_id => project_id, :status_id => '*', :tracker_id => '3', :limit => '10000' })
+
+					issues = tmpissues.to_a + tmpissues2.to_a + tmpissues3.to_a
+
+					if (options.has_key?(:include_subprojects))
+							if (not include_subprojects)
+									issues = issues.select { |i| i.project.id == project_id }
+							end
+					end
+
+					return issues
 			end
-			
-			return issues
-		end
+
 	   
 	   def GetIssue(issue_id)					
 			issue =  Issue.find(issue_id, :params => {  :include => 'journals,changesets' })			
